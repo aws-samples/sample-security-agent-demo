@@ -30,7 +30,7 @@ This is a hands-on demo suite designed to showcase **AWS Security Agent** capabi
 >
 > **Intentionally vulnerable directories:**
 > - `pen-test/terraform/` — Deploys a Flask web app (`user_data.sh`) with OWASP Top 10 vulnerabilities (SQL injection, XSS, SSRF, insecure deserialization, path traversal, hardcoded credentials) and insecure AWS infrastructure (unencrypted S3, RDS, EBS; overly permissive IAM; HTTP-only ALB).
-> - `design-review/` — Documentation containing example vulnerable configurations (JSON/YAML/Python snippets) as input for Security Agent design reviews. Not deployable.
+> - `design-review/` — Design documents (architecture diagram and design document) containing example vulnerable configurations as input for Security Agent design reviews. Not deployable.
 > - `github-review/generated/` — Sample Terraform output from the AI generator. Not applied by the demo.
 >
 > **Production-quality directories:**
@@ -242,8 +242,8 @@ Before running a design review, configure which security requirements the agent 
 Upload the design documents from this repository for the agent to analyze.
 
 1. In the **Files to review** section, upload the following files from the `design-review/` folder:
-   - `aws-security-agent-demo.md` — the vulnerability scenarios document
-   - `vulnerable-architecture-before-review.png` — the architecture diagram
+   - `AnyBank Digital Portal Design Document.docx` — the vulnerability scenarios document
+   - `AnyBank Digital Portal Architecture.png` — the architecture diagram
 2. Supported formats: DOC, DOCX, JPEG, MD, PDF, PNG, TXT (max 5 files, 2MB each, 6MB total)
 
 > **Tip:** For best results, include architecture diagrams and technical documentation that describe your system's security-relevant components and data flows.
@@ -262,7 +262,7 @@ Upload the design documents from this repository for the agent to analyze.
    - The specific security requirement being evaluated
    - A detailed explanation of why the finding received its status
    - Recommended remediation guidance
-4. Compare the agent's findings against the expected results in [`design-review/aws-security-agent-demo.md`](design-review/aws-security-agent-demo.md)
+4. Compare the agent's findings against the expected results in [`design-review/AnyBank Digital Portal Design Document.docx`](design-review/AnyBank%20Digital%20Portal%20Design%20Document.docx)
 
 <img src="design-review/images/review-output.png" width="700" alt="AWS Security Agent design review findings summary">
 
@@ -518,7 +518,7 @@ Open the URL in your browser. You should see the "⚠️ Vulnerable Demo Applica
 5. Click **Next**
 6. (Optional) If the app requires login, provide credentials in the **Agent Space login prompt**:
    - Username: `admin`, Password: `admin123` (from the demo app's sample data)
-7. (Optional) Upload additional context files (e.g., the `design-review/aws-security-agent-demo.md`)
+7. (Optional) Upload additional context files (e.g., the `design-review/AnyBank Digital Portal Design Document.docx`)
 8. Click **Create and execute**
 
 > **Note:** The penetration test can take up to several hours to complete. You can monitor progress in real-time on the test detail screen.

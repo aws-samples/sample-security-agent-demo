@@ -1,0 +1,25 @@
+# Copy this file to terraform.tfvars and fill in your values.
+# terraform.tfvars is excluded from version control via .gitignore.
+
+# --- Required ---
+
+# RDS master password (min 8 chars). Treated as sensitive.
+db_password = "YourStrongPassword123!"
+
+
+# --- Optional: Route 53 custom domain ---
+#
+# If you own a Route 53 hosted zone in this AWS account and want your pen test
+# target to be `pentest.<your-domain>`, set `domain_name` to the hosted zone.
+# Otherwise leave it commented out and use the `alb_dns_name` output from
+# `terraform apply` as your pen test target.
+#
+# domain_name = "yourdomain.com"
+
+
+# --- Optional: overrides (defaults are fine for most cases) ---
+
+# aws_region    = "us-east-1"
+# project_name  = "aws-security-agent-pentest"
+# instance_type = "t3.micro"
+# db_username   = "admin"

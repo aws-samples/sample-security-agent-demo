@@ -1,0 +1,22 @@
+{
+  "Environment": "production",
+  "Application": "web-portal",
+  "Owner": "it-operations-team",
+  "CostCenter": "IT-OPS-001",
+  "Project": "digital-transformation",
+  "ServiceLevel": "critical",
+  "BackupRequired": "true",
+  "MonitoringEnabled": "true",
+  "PatchGroup": "monthly",
+  "ComplianceRequired": "sox-gdpr",
+  "DataClassification": "confidential",
+  "BusinessUnit": "healthcare-technology",
+  "MaintenanceWindow": "sunday-02:00-06:00",
+  "DisasterRecovery": "enabled",
+  "SecurityGroup": "dmz-web-tier",
+  "AutoScaling": "enabled",
+  "LogRetention": "90-days",
+  "IncidentPriority": "high",
+  "ServiceDesk": "servicenow-integration",
+  "ChangeManagement": "required"
+}

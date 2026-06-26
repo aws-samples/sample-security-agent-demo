@@ -20,7 +20,7 @@ resource "aws_vpc" "vulnerable_vpc" {
   tags = {
     Name        = "${var.project_name}-vpc"
     Environment = "demo"
-    Purpose     = "pentest-demo"
+    Purpose     = "pentest-demo1"
   }
 }
 

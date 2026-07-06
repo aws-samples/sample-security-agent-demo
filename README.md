@@ -78,7 +78,7 @@ aws configure
 ```
 
 - **AWS Security Agent access** (Demo 1 and Demo 3): You must have access to the [AWS Security Agent console](https://console.aws.amazon.com/securityagent/) and web application
-- **Amazon Bedrock model access** (Demo 2): You must [enable model access](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access-modify.html) in the Bedrock console for the model you plan to use before deploying. The default configuration uses **Anthropic Claude Sonnet 4**, but any Bedrock-supported model can be used by overriding the `bedrock_model_id` variable
+- **Amazon Bedrock model access** (Demo 2 only): You must [enable model access](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access-modify.html) in the Bedrock console for the model you plan to use before deploying. This applies **only to the Demo 2 sample Lambda that generates Terraform code** — its default is **Anthropic Claude Sonnet 4**, and you can point it at any Bedrock-supported model by overriding the `bedrock_model_id` variable. This setting has no effect on AWS Security Agent itself; the model AWS Security Agent uses for design review, code review, and penetration testing is managed by the service and is not user-configurable.
 
 ### Demo-Specific Prerequisites
 
@@ -138,7 +138,7 @@ This creates your Agent Space and establishes the web application. For SSO acces
 
 | Service | Demo | Purpose |
 |---------|------|---------|
-| Amazon Bedrock | Demo 2 | Terraform code generation (defaults to Claude Sonnet 4, configurable) |
+| Amazon Bedrock | Demo 2 | Terraform code generation by the Demo 2 sample Lambda (defaults to Claude Sonnet 4, configurable via `bedrock_model_id`). Not related to the model AWS Security Agent runs. |
 | AWS Lambda | Demo 2 | Request processing and orchestration |
 | Amazon API Gateway | Demo 2 | REST API endpoint |
 | Amazon S3 | Demo 2, Demo 3 | Context storage, vulnerable bucket |
@@ -167,7 +167,7 @@ File: `github-review/terraform/terraform.tfvars`
 | `github_repo` | **Yes** | — | Target repository name for generated PRs |
 | `aws_region` | No | `us-east-1` | AWS region for deployment |
 | `project_name` | No | `bedrock-infra-generator` | Prefix for all resource names |
-| `bedrock_model_id` | No | `us.anthropic.claude-sonnet-4-20250514-v1:0` | Bedrock inference profile ID |
+| `bedrock_model_id` | No | `us.anthropic.claude-sonnet-4-20250514-v1:0` | Bedrock inference profile ID used **only by the Demo 2 sample Lambda** to generate Terraform. Does not change the model AWS Security Agent uses. |
 | `context_key` | No | `it-operations-tags.json` | S3 key for the organizational tags file |
 
 ### Demo 3 Variables
@@ -286,7 +286,7 @@ An AI-powered system that converts natural language infrastructure requests into
 
 ### Step 1: Enable Bedrock Model Access (AWS Console)
 
-Enable access for the model you plan to use. The default is **Anthropic Claude Sonnet 4**, but you can use any Bedrock-supported model by setting the `bedrock_model_id` variable in your `terraform.tfvars`.
+Enable access for the model the **Demo 2 sample Lambda** will use to generate Terraform. The default is **Anthropic Claude Sonnet 4**, but you can point the Lambda at any Bedrock-supported model by setting the `bedrock_model_id` variable in your `terraform.tfvars`. This variable configures only this sample Lambda — it does not affect the model AWS Security Agent uses for its reviews.
 
 1. Navigate to [Amazon Bedrock](https://console.aws.amazon.com/bedrock/) in the AWS Console
 2. In the left sidebar, click **Model access**

@@ -407,9 +407,9 @@ For full details on the Lambda function flow, see [`github-review/README.md`](gi
 Deploys an intentionally vulnerable web application and runs AWS Security Agent penetration testing against it.
 
 <details>
-<summary><b>✅ Verified run notes & gotchas (tested end-to-end on macOS / Isengard, us-east-1)</b></summary>
+<summary><b>✅ Verified run notes & gotchas (tested end-to-end on macOS, us-east-1)</b></summary>
 
-These notes capture the exact path that worked, plus the errors encountered and how to get past them. Replace `<AWS_ACCOUNT_ID>`, `<ALB_DNS_NAME>`, and `<YOUR_ALIAS>` with your own values.
+These notes capture the exact path that worked, plus the errors encountered and how to get past them. Replace `<AWS_ACCOUNT_ID>`, `<ALB_DNS_NAME>`, and `<AWS_PROFILE>` with your own values.
 
 **Terraform install (Homebrew):** `brew install terraform` fails — the formula was removed from Homebrew core (`Error: No available formula with the name "terraform"`). Use the HashiCorp tap:
 
@@ -421,15 +421,15 @@ terraform version   # e.g. Terraform v1.15.8 on darwin_arm64
 
 > If the tap emits a `vagrant.rb` import warning, ignore it — `terraform` still installs and works.
 
-**Credentials (Isengard via `ada`):** `terraform apply` fails with `InvalidClientTokenId` / `403` if credentials aren't set. Fetch them, then verify:
+**Credentials:** `terraform apply` fails with `InvalidClientTokenId` / `403` if credentials aren't set. Configure AWS credentials (an IAM user or IAM Identity Center / SSO profile) with permissions to deploy the stack, then verify:
 
 ```bash
-ada credentials update --account <AWS_ACCOUNT_ID> --role Admin --provider isengard
-aws sts get-caller-identity
-# Arn: arn:aws:sts::<AWS_ACCOUNT_ID>:assumed-role/Admin/<YOUR_ALIAS>-Isengard
+aws configure sso            # or: aws configure  (for an IAM user)
+aws sts get-caller-identity --profile <AWS_PROFILE>
+# Arn: arn:aws:sts::<AWS_ACCOUNT_ID>:assumed-role/<role-name>/<session>
 ```
 
-> **Token expiry:** Isengard tokens expire (`ExpiredToken` error), commonly hit at `terraform destroy` time. Re-run `mwinit -o` and the `ada credentials update` command above, then retry.
+> **Token expiry:** temporary credentials expire (`ExpiredToken` error), commonly hit at `terraform destroy` time. Refresh your credentials (e.g. `aws sso login --profile <AWS_PROFILE>`), then retry.
 
 **Observed deploy timing:** ~5.5 min total, `27 resources added`. RDS (`db.t3.micro`) is the long pole at ~5m19s; NAT Gateway ~1m45s; ALB ~3m24s.
 

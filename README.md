@@ -407,6 +407,42 @@ For full details on the Lambda function flow, see [`github-review/README.md`](gi
 Deploys an intentionally vulnerable web application and runs AWS Security Agent penetration testing against it.
 
 <details>
+<summary><b>✅ Verified run notes & gotchas (tested end-to-end on macOS, us-east-1)</b></summary>
+
+These notes capture the exact path that worked, plus the errors encountered and how to get past them. Replace `<AWS_ACCOUNT_ID>`, `<ALB_DNS_NAME>`, and `<AWS_PROFILE>` with your own values.
+
+**Terraform install (Homebrew):** `brew install terraform` fails — the formula was removed from Homebrew core (`Error: No available formula with the name "terraform"`). Use the HashiCorp tap:
+
+```bash
+brew tap hashicorp/tap
+brew install hashicorp/tap/terraform
+terraform version   # e.g. Terraform v1.15.8 on darwin_arm64
+```
+
+> If the tap emits a `vagrant.rb` import warning, ignore it — `terraform` still installs and works.
+
+**Credentials:** `terraform apply` fails with `InvalidClientTokenId` / `403` if credentials aren't set. Configure AWS credentials (an IAM user or IAM Identity Center / SSO profile) with permissions to deploy the stack, then verify:
+
+```bash
+aws configure sso            # or: aws configure  (for an IAM user)
+aws sts get-caller-identity --profile <AWS_PROFILE>
+# Arn: arn:aws:sts::<AWS_ACCOUNT_ID>:assumed-role/<role-name>/<session>
+```
+
+> **Token expiry:** temporary credentials expire (`ExpiredToken` error), commonly hit at `terraform destroy` time. Refresh your credentials (e.g. `aws sso login --profile <AWS_PROFILE>`), then retry.
+
+**Observed deploy timing:** ~5.5 min total, `27 resources added`. RDS (`db.t3.micro`) is the long pole at ~5m19s; NAT Gateway ~1m45s; ALB ~3m24s.
+
+**`curl` gotchas during manual testing:**
+- Keep the whole `curl` command on **one line** — a wrapped line makes zsh throw `curl: (2) no URL specified` / `no such file or directory`.
+- Don't paste example annotations (e.g. `then token=2`) onto the command line — zsh treats `then` as a hostname (`Could not resolve host: then`).
+- The SQLi payload `?q=' OR '1'='1` can trip zsh/curl with `URL rejected: Malformed input to a URL function` — URL-encode it, or lead with the IDOR / API calls which are the most reliable live demos.
+
+**During the pen test run:** the run is server-side (in AWS), so your laptop can sleep; it takes ~1–4 hours. A live scan opens many DB connections, so the small `db.t3.micro` may briefly return `pymysql OperationalError (1040, 'Too many connections')` — expected, not a failure.
+
+</details>
+
+<details>
 <summary><b>What vulnerabilities are included?</b></summary>
 
 **Application-Level:**

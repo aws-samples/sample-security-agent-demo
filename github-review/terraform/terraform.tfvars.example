@@ -8,5 +8,5 @@ github_repo  = "your-repo"
 # Optional overrides (defaults are fine for most cases):
 # aws_region       = "us-east-1"
 # project_name     = "bedrock-infra-generator"
-# bedrock_model_id = "us.anthropic.claude-sonnet-4-20250514-v1:0"
+# bedrock_model_id = "us.anthropic.claude-sonnet-5"
 # context_key      = "it-operations-tags.json"

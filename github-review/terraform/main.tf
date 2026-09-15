@@ -8,7 +8,11 @@ terraform {
 }
 
 provider "aws" {
-  region = var.aws_region
+  region  = var.aws_region
+  profile = var.aws_profile
+  default_tags {
+    tags = var.default_tags
+  }
 }
 
 resource "aws_s3_bucket" "context_bucket" {
@@ -32,8 +36,9 @@ resource "random_id" "bucket_suffix" {
 }
 
 resource "aws_lambda_function" "infrastructure_generator" {
-  filename         = "lambda_function.zip"
-  function_name    = "${var.project_name}-infrastructure-generator"
+  filename            = "lambda_function.zip"
+  source_code_hash    = filebase64sha256("lambda_function.zip")
+  function_name       = "${var.project_name}-infrastructure-generator"
   role            = aws_iam_role.lambda_role.arn
   handler         = "lambda_function.lambda_handler"
   runtime         = "python3.12"

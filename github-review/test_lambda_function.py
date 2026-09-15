@@ -14,7 +14,7 @@ import unittest
 from unittest.mock import patch, MagicMock
 
 # Set required env vars before importing the module
-os.environ.setdefault('BEDROCK_MODEL_ID', 'us.anthropic.claude-sonnet-4-20250514-v1:0')
+os.environ.setdefault('BEDROCK_MODEL_ID', 'us.anthropic.claude-sonnet-5')
 os.environ.setdefault('CONTEXT_BUCKET', 'test-bucket')
 os.environ.setdefault('GITHUB_TOKEN', 'fake-token')
 os.environ.setdefault('GITHUB_OWNER', 'test-owner')

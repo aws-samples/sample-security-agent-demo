@@ -45,3 +45,15 @@ variable "domain_name" {
   type        = string
   default     = ""
 }
+
+variable "aws_profile" {
+  description = "AWS CLI profile name (omit to use default credentials)"
+  type        = string
+  default     = null
+}
+
+variable "default_tags" {
+  description = "Default tags applied to all AWS resources"
+  type        = map(string)
+  default     = {}
+}

@@ -1,1 +1,15 @@
 .DS_Store
+~$*
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Terraform
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.backup
+terraform.tfvars
+lambda_function.zip

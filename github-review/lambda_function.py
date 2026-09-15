@@ -335,7 +335,8 @@ def generate_terraform_code(request, context):
         inferenceConfig={'maxTokens': BEDROCK_MAX_TOKENS},
     )
 
-    result_text = response['output']['message']['content'][0]['text']
+    content_blocks = response['output']['message']['content']
+    result_text = next(b['text'] for b in content_blocks if 'text' in b)
     return result_text, target_file, file_sha
 
 

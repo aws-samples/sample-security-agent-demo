@@ -167,7 +167,7 @@ File: `github-review/terraform/terraform.tfvars`
 | `github_repo` | **Yes** | — | Target repository name for generated PRs |
 | `aws_region` | No | `us-east-1` | AWS region for deployment |
 | `project_name` | No | `bedrock-infra-generator` | Prefix for all resource names |
-| `bedrock_model_id` | No | `us.anthropic.claude-sonnet-4-20250514-v1:0` | Bedrock inference profile ID used **only by the Demo 2 sample Lambda** to generate Terraform. Does not change the model AWS Security Agent uses. |
+| `bedrock_model_id` | No | `us.anthropic.claude-sonnet-5` | Bedrock inference profile ID used **only by the Demo 2 sample Lambda** to generate Terraform. Does not change the model AWS Security Agent uses. |
 | `context_key` | No | `it-operations-tags.json` | S3 key for the organizational tags file |
 
 ### Demo 3 Variables

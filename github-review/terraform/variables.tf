@@ -19,7 +19,19 @@ variable "context_key" {
 variable "bedrock_model_id" {
   description = "Amazon Bedrock model ID for code generation"
   type        = string
-  default     = "us.anthropic.claude-sonnet-4-20250514-v1:0"
+  default     = "us.anthropic.claude-sonnet-5"
+}
+
+variable "aws_profile" {
+  description = "AWS CLI profile name (omit to use default credentials)"
+  type        = string
+  default     = null
+}
+
+variable "default_tags" {
+  description = "Default tags applied to all AWS resources"
+  type        = map(string)
+  default     = {}
 }
 
 variable "github_token" {
